@@ -1,3 +1,4 @@
+// api/catalog.js
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
@@ -7,7 +8,9 @@ export default async function handler(req, res) {
     );
 
     if (!response.ok) {
-      return res.status(500).json({ error: `Roblox API error: ${response.status}` });
+      return res
+        .status(500)
+        .json({ error: `Roblox API error: ${response.status}` });
     }
 
     const data = await response.json();
@@ -49,9 +52,9 @@ export default async function handler(req, res) {
       })
     );
 
+    // Permitir acceso desde Roblox o cualquier cliente
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.json(items);
-
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
