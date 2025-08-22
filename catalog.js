@@ -1,4 +1,3 @@
-// api/catalog.js
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
@@ -6,13 +5,6 @@ export default async function handler(req, res) {
     const response = await fetch(
       "https://catalog.roblox.com/v1/search/items/details?Category=1&Limit=10"
     );
-
-    if (!response.ok) {
-      return res
-        .status(500)
-        .json({ error: `Roblox API error: ${response.status}` });
-    }
-
     const data = await response.json();
 
     const items = await Promise.all(
@@ -52,9 +44,8 @@ export default async function handler(req, res) {
       })
     );
 
-    // Permitir acceso desde Roblox o cualquier cliente
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.json(items);
+    res.status(200).json(items);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
