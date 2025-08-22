@@ -5,6 +5,11 @@ export default async function handler(req, res) {
     const response = await fetch(
       "https://catalog.roblox.com/v1/search/items/details?Category=1&Limit=10"
     );
+
+    if (!response.ok) {
+      return res.status(500).json({ error: `Roblox API error: ${response.status}` });
+    }
+
     const data = await response.json();
 
     const items = await Promise.all(
